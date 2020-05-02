@@ -12,6 +12,7 @@ function login(username,password) {
                 console.log(result.data)
                 dispatch({type:"LOGIN", data:result.data, post:post})
             })
+            .catch(err=>alert(err))
 
     }
 }

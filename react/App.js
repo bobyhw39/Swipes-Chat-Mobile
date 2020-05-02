@@ -22,28 +22,21 @@ import ChatScreen from "./screens/Chat/ChatScreen";
 import NewChat from "./screens/NewChat/NewChat";
 import ChatScreenNew from "./screens/NewChat/ChatScreenNew";
 import RegistrationScreen from "./screens/Registration/RegistrationScreen";
+import {createDrawerNavigator} from "@react-navigation/drawer";
+import DrawerContent from "./navigator/DrawerContent";
+import NavBar from "./components/NavBar/NavBar";
 
 const store = createStore(reducer,applyMiddleware(thunk));
 
-const Stack = createStackNavigator();
+
+// const Drawer = createDrawerNavigator();
 
 function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-          {/*<NavigationApp />*/}
-          <Stack.Navigator headerMode="none">
-              <Stack.Screen name="NavigationApp" component={NavigationApp} />
-              {/*<Stack.Screen name="OPEN_DRAWER" component={NavigationApp} />*/}
-              <Stack.Screen name="LoginScreen" component={LoginScreen} />
-              <Stack.Screen name="HomeScreen" component={HomeScreen} />
-              <Stack.Screen name="ChatScreen" component={ChatScreen} />
-              <Stack.Screen name="NewChatScreen" component={NewChat} />
-              <Stack.Screen name="ChatScreenNew" component={ChatScreenNew} />
-              <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
-          </Stack.Navigator>
+          <NavigationApp />
       </NavigationContainer>
-
     </Provider>
   );
 };

@@ -8,6 +8,7 @@ import NavBar from '../../components/NavBar/NavBar'
 
 import Axios from 'axios';
 import {StackActions} from "@react-navigation/native";
+import {DrawerActions} from "react-navigation";
 
 export default class RegistrationScreen extends React.Component  {
     constructor(props) {
@@ -63,7 +64,7 @@ export default class RegistrationScreen extends React.Component  {
         return (
             <View style={Styles.container}>
                 <NavBar name="Registration" icon="arrow-back"
-                        onLeftElementPress={() => () => this.props.navigation.goBack()
+                        onLeftElementPress={() => () => this.props.navigation.dispatch(DrawerActions.jumpTo('LoginScreen'))
                          } />
 
                 <View style={Styles.card}>
@@ -75,7 +76,7 @@ export default class RegistrationScreen extends React.Component  {
                            onChangeText={(e) => this.setState({ username: e })} />
                     <Input placeholder='Email'
                            onChangeText={(e) => this.setState({ email: e })} />
-                    <Input placeholder="password"
+                    <Input placeholder="Password"
                            onChangeText={(e) => this.setState({ password: e })}
                            secureTextEntry={this.state.showPassword} />
                     <Switch style={{ alignSelf: "flex-end" }}
@@ -97,7 +98,6 @@ export default class RegistrationScreen extends React.Component  {
 const Styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#b7c2c6'
     },
     card: {
         marginTop: '20%',

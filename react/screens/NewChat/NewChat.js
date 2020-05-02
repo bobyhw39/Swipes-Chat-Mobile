@@ -12,10 +12,17 @@ class NewChat extends React.Component{
     state={
         search:'',
         contactList:[],
+        groupList:[],
     }
 
     componentDidMount(): void {
         const {result} =this.props.route.params
+        Axios.get("http://10.10.12.31:3939/group/user/"+result)
+            .then(result=>{
+                this.setState({
+                    groupList:result.data
+                })
+            })
         Axios.get("http://10.10.12.31:3939/friends/"+result)
             .then(result=>{
                 this.setState({
@@ -52,6 +59,26 @@ class NewChat extends React.Component{
                 </Native.View>
 
                 <Native.View>
+                    <Native.TouchableOpacity style={{ flexDirection: "row", margin: 20 }}
+                                             onPress={() => this.props.navigation.navigate('AddFriendsScreen')}>
+                        <Icon name="people" color='green' />
+                        <Native.Text style={{ fontSize: 20, marginLeft: 20 }}>Add a Friend</Native.Text>
+                    </Native.TouchableOpacity>
+                </Native.View>
+
+                <Native.View>
+                    <Native.Text style={{marginBottom:"2%",marginLeft:"2%"}}>
+                        Your Group
+                    </Native.Text>
+                    {this.state.groupList.map(result=>(
+                        <CardPeople clicked={() => { this.props.navigation.navigate('ChatGroupNew',{res:result})}} fullName={result.name}/>
+                    ))}
+                </Native.View>
+
+                <Native.View>
+                    <Native.Text style={{marginBottom:"2%",marginLeft:"2%"}}>
+                        Your Friends
+                    </Native.Text>
                     {this.state.contactList.map(result=>(
                         <CardPeople clicked={() => { this.props.navigation.navigate('ChatScreenNew',{res:result})}} fullName={result.userTwo.fullName}/>
                     ))}

@@ -23,12 +23,14 @@ import { CommonActions } from '@react-navigation/native';
 import CardMessage from "../../components/CardMessage/CardMessage";
 import {log} from "react-native-reanimated";
 
-
 let stompClient=null;
 class ChatScreen extends React.Component{
 
+
+
     state={
         broadcastMessage:[],
+        labels: ["Search", "Mute", "Events", "Clear history", "Todos"],
         messageInput:[],
     }
 
@@ -96,6 +98,11 @@ class ChatScreen extends React.Component{
                 ...this.state,
                 broadcastMessage:copy,
             })
+            // PushNotification.localNotification({
+            //     /* iOS and Android properties */
+            //     title: message.sender, // (optional)
+            //     message: message.content, // (required)
+            // });
         }
         else if (message.type === 'LEAVE') {
             this.state.roomNotification.map((notification, i) => {
@@ -142,12 +149,21 @@ class ChatScreen extends React.Component{
                 <NavBar
                     name={this.receiver()}
                     icon="arrow-back"
-                    right="search"
+                    right={{
+                        menu: {
+                            icon: "more-vert",
+                            labels: this.state.labels,
+                        },
+                    }}
+
                     // onLeftElementPress={() => this.props.navigation.replace('HomeScreen') }
                     onLeftElementPress={() => this.props.navigation.dispatch(
                         StackActions.replace('HomeScreen',)
                     ) }
-                    onRightElementPress={this.state.search}
+                    onRightElementPress={(label) => {
+                        this.props.navigation.navigate(this.state.labels[label.index]);
+                    }}
+
                 />
 
                 <Native.ScrollView contentContainerStyle={{ flexDirection: 'column', justifyContent: 'flex-start'}}>
@@ -165,7 +181,7 @@ class ChatScreen extends React.Component{
                         ):(
                             <>
                                 <Native.View style={{marginLeft: 16, alignSelf: 'flex-end', marginVertical: 16}}>
-                                    <CardMessage sender={result.sender}
+                                    <CardMessage key={result.id} sender={result.sender}
                                                  message={result.content}/>
                                 </Native.View>
                             </>

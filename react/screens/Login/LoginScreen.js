@@ -30,7 +30,8 @@ const css = Native.StyleSheet.create({
         alignItems: 'center'
     },
     Rtitle1: {
-        color: 'green',
+        color: 'blue',
+        textDecorationLine: 'underline',
         fontSize: 20
     },
     Rtitle2: {
@@ -39,7 +40,6 @@ const css = Native.StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        backgroundColor: "#21bf73",
         borderRadius: 15,
         marginTop: 70,
         height: '30%',
@@ -104,11 +104,6 @@ class LoginScreen extends React.Component{
                                     titleStyle={css.Rtitle1}
                                     buttonStyle={css.button1}
                                     onPress={() => this.props.navigation.navigate('RegistrationScreen')} />
-
-                            <Button title="forgot password?"
-                                    titleStyle={css.Rtitle2}
-                                    buttonStyle={css.button1}
-                                    onPress={() => this.login()} />
                         </Native.View>
 
                     </Native.View>

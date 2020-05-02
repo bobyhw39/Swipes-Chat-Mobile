@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import {connect} from 'react-redux'
 import fetchAccount from "../redux/actions/fetchAccount";
 import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { DrawerActions } from '@react-navigation/native';
 
 const styles = Native.StyleSheet.create({
     drawerContent: {
@@ -39,12 +40,12 @@ const styles = Native.StyleSheet.create({
 
 class DrawerContent extends React.Component{
     async componentDidMount(): void {
-        await this.props.dispatch(fetchAccount(this.props.username))
+
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return (
-                <DrawerContentScrollView {...this.props}>
+                <Native.View {...this.props}>
                     <Native.View style={styles.userInfoSection}>
                         <Native.View style={styles.userInfo}>
                             <Avatar.Image source={{ uri: "https://i.pravatar.cc/100?img=2" }} size={100} />
@@ -54,16 +55,16 @@ class DrawerContent extends React.Component{
                     </Native.View>
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem label="Profile" icon={() => (<Icon name="person" />)}
-                                    onPress={() => { this.props.navigation.navigate('Profile') }} />
+                                    onPress={() =>  this.props.navigation.dispatch(DrawerActions.jumpTo('ProfileScreen', )) }/>
 
                         <DrawerItem label="New Group" icon={() => (<Icon name="group" />)}
-                                    onPress={() => { this.props.navigation.navigate('NewGroup') }} />
+                                    onPress={() => this.props.navigation.dispatch(DrawerActions.jumpTo('NewChatScreen', ))} />
 
                         <DrawerItem label="New Chat" icon={() => (<Icon name="chat-bubble-outline" />)}
-                                    onPress={() => { this.props.navigation.navigate('NewChat') }} />
+                                    onPress={() => this.props.navigation.dispatch(DrawerActions.jumpTo('NewChatScreen',{result:this.props.username} ))} />
 
                         <DrawerItem label="Add Friends" icon={() => (<Icon name="person-add" />)}
-                                    onPress={() => { this.props.navigation.navigate('AddFriends') }} />
+                                    onPress={() => this.props.navigation.dispatch(DrawerActions.jumpTo('AddFriendsScreen', ))} />
 
                         <DrawerItem label="Settings" icon={() => (<Icon name="settings" />)}
                                     onPress={() => { this.props.navigation.navigate('SettingsScreen') }} />
@@ -71,7 +72,7 @@ class DrawerContent extends React.Component{
                         <DrawerItem label="Help" icon={() => (<Icon name="live-help" />)}
                                     onPress={() => { this.props.navigation.navigate('HelpScreen') }} />
                     </Drawer.Section>
-                </DrawerContentScrollView>
+                </Native.View>
         );
     }
 }

@@ -44,18 +44,17 @@ class ChatScreenNew extends React.Component{
         this.connect();
     }
 
-    componentWillUnmount(): void {
-        stompClient.disconnect()
-    }
-
     connect(){
         const {res} = this.props.route.params;
-        if(res.userOne.username()){
+        if(res.userOne.username){
             var Stomp = require('stompjs/lib/stomp.js').Stomp;
             var SockJS = require('sockjs-client')
             SockJS = new SockJS('http://10.10.12.31:3939/ws/')
             stompClient = Stomp.over(SockJS);
-            stompClient.connect({}, this.onConnected, this.onError);
+            if(stompClient.status !== 'CONNECTED') {
+                console.log("connecting now")
+                stompClient.connect({}, this.onConnected, this.onError);
+            }
         }
     }
 
@@ -65,10 +64,13 @@ class ChatScreenNew extends React.Component{
 
         // Subscribing to the private topic
         // stompClient.subscribe('/user/queue/reply', this.onMessageReceived);
-        stompClient.subscribe("/topic/messages/" + this.sender(), this.onMessageReceived);
+        stompClient.subscribe("/topic/messages/" + res.userOne.username, this.onMessageReceived);
 
         // Registering user to server as a private chat user
-        stompClient.send('/app/addPrivateUser', {}, JSON.stringify({sender: res.userOne.username, type: 'JOIN'}))
+        stompClient.send('/app/addPrivateUser', {}, JSON.stringify({sender: res.userOne.username, type: 'JOIN'}));
+
+
+
     }
 
 
@@ -106,16 +108,17 @@ class ChatScreenNew extends React.Component{
 
 
     sendMessage = async (type, value) => {
+        const {res} = this.props.route.params;
         if (stompClient) {
             var chatMessage = {
-                sender: this.sender(),
-                receiver: this.receiver(),
+                sender: res.userOne.username,
+                receiver: res.userTwo.username,
                 content: value,
                 type: type
             };
 
             // await stompClient.send('/app/sendPrivateMessage', {}, JSON.stringify(chatMessage));
-            await stompClient.send('/app/ws/' + this.receiver(), {}, JSON.stringify(chatMessage));
+            await stompClient.send('/app/ws/' + res.userTwo.username, {}, JSON.stringify(chatMessage));
 
             let copy = this.state.broadcastMessage;
             copy.push(chatMessage);
@@ -178,7 +181,7 @@ class ChatScreenNew extends React.Component{
                         label='Text Message'
                         onChangeText={text => this.setState({ messageInput:text })}
                     />
-                    <Button onPress={()=> this.sendMessage("CHAT",this.state.messageInput)}>
+                    <Button onPress={()=>this.sendMessage("CHAT",this.state.messageInput)}>
                         Send
                     </Button>
                 </Native.View>

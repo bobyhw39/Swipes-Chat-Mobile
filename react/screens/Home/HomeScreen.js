@@ -7,8 +7,11 @@ import CardChat from "../../components/CardChat/CardChat";
 import NavBar from "../../components/NavBar/NavBar";
 import {connects} from "../../redux/actions/connects"
 import {connect} from 'react-redux'
-
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerActions } from '@react-navigation/native';
+import fetchAccount from "../../redux/actions/fetchAccount";
+import NavigationApp from "../../navigator/NavigationApp";
+import logout from "../../redux/actions/logout";
 
 let stompClient = null;
 exports.stompClient = stompClient;
@@ -31,14 +34,17 @@ const Styles = Native.StyleSheet.create({
 
 });
 
+import { useIsDrawerOpen } from '@react-navigation/drawer';
+import {StackActions} from "react-navigation";
+
 class HomeScreen extends React.Component{
     state = {
         lastChat: [],
         id: '',
         broadcastMessage:[],
     }
-    componentDidMount() {
-
+   async componentDidMount(): void {
+        await this.props.dispatch(fetchAccount(this.props.username))
         // const { username } = this.props.route.params;
         Axios.get('http://10.10.12.31:3939/lastchat/'+this.props.username)
             .then(res => {
@@ -58,12 +64,16 @@ class HomeScreen extends React.Component{
         if(res.room===null){
             this.props.navigation.navigate('ChatScreen', {res2: res})
         } else {
-            this.props.navigation.navigate('ChatGroup', {res2: res})
+            this.props.navigation.navigate('ChatGroupScreen', {res2: res})
         }
+    }
+    async logout(){
+        await this.props.dispatch(logout());
+        alert("Anda keluar dari Swipes chat!");
+        this.props.navigation.dispatch(DrawerActions.jumpTo('LoginScreen',))
     }
 
     render() {
-
         return (
             <React.Fragment>
                 <Native.View style={{ flex: 1 }}>
@@ -72,9 +82,11 @@ class HomeScreen extends React.Component{
                         icon="view-headline"
                         right="exit-to-app"
                         // onLeftElementPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-                        // onLeftElementPress={() => this.props.navigation.openDrawer()}
-                        onLeftElementPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-                        onRightElementPress={() => { this.props.navigation.navigate('Login'), alert("Anda keluar dari Swipes chat!") }}
+                        onLeftElementPress={() => this.props.navigation.openDrawer()}
+                        // onLeftElementPress={() => {this.props.navigation.openDrawer()}}
+                        // onLeftElementPress={()=> this.props.navigation.openDrawer() }
+                        // onLeftElementPress={() => {this.props.navigation.dispatch(DrawerActions.toggleDrawer())}}
+                        onRightElementPress={() => this.logout()}
                     />
                     <Native.ScrollView>
                         {        this.state.lastChat.map(res => {

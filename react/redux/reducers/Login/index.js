@@ -24,6 +24,17 @@ const loginReducer = (state=initialState,action) =>{
             fullName:action.data.fullName,
         }
     }
+    else if(action.type==="LOGOUT"){
+        return{
+            ...state,
+            username:'',
+            password:'',
+            status:'',
+            id:'',
+            email:'',
+            fullName:'',
+        }
+    }
     return state
 }
 export default loginReducer

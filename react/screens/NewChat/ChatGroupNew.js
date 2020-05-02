@@ -28,30 +28,17 @@ import {log} from "react-native-reanimated";
 
 let currentSubscription;
 let stompClient=null;
-class ChatGroup extends React.Component{
+class ChatGroupNew extends React.Component{
 
     state={
         broadcastMessage:[],
         messageInput:[],
     }
 
-    sender(){
-        const {res2} = this.props.route.params;
-        if (res2.sender!=this.props.username){
-            return res2.receiver;
-        } else return res2.sender;
-    }
-
-    receiver(){
-        const {res2} = this.props.route.params;
-        if (res2.receiver!=this.props.username){
-            return res2.receiver;
-        } else return res2.sender;
-    }
 
     async componentDidMount() {
-        const {res2} = this.props.route.params;
-        await Axios.get('http://10.10.12.31:3939/getAllChat/'+res2.room.id)
+        const {res} = this.props.route.params;
+        await Axios.get('http://10.10.12.31:3939/getAllChat/'+res.id)
             .then(res => {
                 console.log(res.data);
                 this.setState({
@@ -63,19 +50,17 @@ class ChatGroup extends React.Component{
     }
 
     connect(){
-        const {res2} = this.props.route.params;
-        if(res2.sender){
+        const {res} = this.props.route.params;
             var Stomp = require('stompjs/lib/stomp.js').Stomp;
             var SockJS = require('sockjs-client')
             SockJS = new SockJS('http://10.10.12.31:3939/ws')
             stompClient = Stomp.over(SockJS);
             stompClient.connect({}, this.onConnected, this.onError);
-        }
     }
 
     onConnected = () => {
-        const {res2} = this.props.route.params;
-        const roomId = res2.room.id;
+        const {res} = this.props.route.params;
+        const roomId = res.id;
         cookies.set('roomId', roomId);
         // Subscribing to the private topic
         // stompClient.subscribe('/user/reply', this.onMessageReceived);
@@ -99,8 +84,8 @@ class ChatGroup extends React.Component{
     onMessageReceived = (payload) => {
         var message = JSON.parse(payload.body);
 
-        if (message.type === 'CHAT') {
-            let copy = this.state.broadcastMessage;
+    if (message.type === 'CHAT') {
+        let copy = this.state.broadcastMessage;
             copy.push({
                 content: message.content,
                 sender: message.sender,
@@ -138,18 +123,18 @@ class ChatGroup extends React.Component{
 
 
     sendMessage = async (type, value) => {
-        const {res2} = this.props.route.params;
+        const {res} = this.props.route.params;
         if (stompClient) {
             var chatMessage = {
-                sender: this.sender(),
-                room:res2.room,
+                sender: this.props.username,
+                room:res,
                 content: value,
                 type: type
             };
 
             // await stompClient.send('/app/sendPrivateMessage', {}, JSON.stringify(chatMessage));
-            await stompClient.send('/app/ws/group/' + res2.room.id+"/sendMessageGroup", {}, JSON.stringify(chatMessage));
-            
+            await stompClient.send('/app/ws/group/' + res.id+"/sendMessageGroup", {}, JSON.stringify(chatMessage));
+
         }
     }
 
@@ -158,7 +143,7 @@ class ChatGroup extends React.Component{
         return (
             <React.Fragment>
                 <NavBar
-                    name={this.receiver()}
+                    name={res.name}
                     icon="arrow-back"
                     right="search"
                     // onLeftElementPress={() => this.props.navigation.replace('HomeScreen') }
@@ -217,4 +202,4 @@ const mapStateToProps = (state) => {
         fullName: state.loginReducer.fullName,
     }
 }
-export default connect(mapStateToProps)(ChatGroup);
+export default connect(mapStateToProps)(ChatGroupNew);
