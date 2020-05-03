@@ -107,8 +107,8 @@ class EventScreen extends Component {
                             StackActions.replace('Events',)
                         )
                     }}
+                    onRightElementPress={this.saveBtn}
                 />
-                <Button title="Save" onPress={this.saveBtn} />
                 <View style={{ marginHorizontal: 10 }}>
                     {/* tittle */}
                     <Input

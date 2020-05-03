@@ -15,6 +15,10 @@ import ChatGroupNew from "../screens/NewChat/ChatGroupNew";
 import ListEvent from "../screens/Events/ListEvent";
 import EventScreen from "../screens/Events/EventScreen";
 import EventView from "../screens/Events/EventView";
+import FriendsScreen from "../screens/Friends/FriendsScreen";
+import NewGroupScreen from "../screens/NewGroup/NewGroupScreen";
+import GroupInfo from "../screens/GroupInfo/GroupInfo";
+import AddParticipants from "../screens/GroupInfo/AddParticipants";
 
 const Stack = createStackNavigator();
 class StackNavigator extends React.Component{
@@ -35,6 +39,10 @@ class StackNavigator extends React.Component{
                 <Stack.Screen name="Events" component={ListEvent} />
                 <Stack.Screen name="New Event" component={EventScreen} />
                 <Stack.Screen name="Event View" component={EventView} />
+                <Stack.Screen name="FriendsScreen" component={FriendsScreen} />
+                <Stack.Screen name="NewGroupScreen" component={NewGroupScreen} />
+                <Stack.Screen name="Group Info" component={GroupInfo} />
+                <Stack.Screen name="AddParticipants" component={AddParticipants} />
             </Stack.Navigator>
         );
     }

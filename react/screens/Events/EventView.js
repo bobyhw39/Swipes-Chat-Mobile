@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import moment from 'moment';
 import DateAndTime from "../../components/DateAndTime/DateAndTime";
 import { Days, Months } from "../../utils/Contents";
+import { StackActions } from '@react-navigation/native';
 
 
 class EventView extends Component {
@@ -57,8 +58,11 @@ class EventView extends Component {
                         },
                     }}
                     onLeftElementPress={() => {
-                        this.props.navigation.goBack();
+                        this.props.navigation.dispatch(
+                            StackActions.replace('Events',)
+                        )
                     }}
+
                     onRightElementPress={() => {
                         console.log("haha");
 

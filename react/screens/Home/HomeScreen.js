@@ -92,7 +92,7 @@ class HomeScreen extends React.Component{
                         {        this.state.lastChat.map(res => {
                             console.log(res.receiver,"check if user available")
                             return (
-                                <CardChat receiver={this.props.username!=res.receiver ? res.receiver : res.sender} group={res.room} text={res.content} sender={res.sender}
+                                <CardChat receiver={this.props.username!=res.receiver ? res.receiver : res.sender} id= {res.id} group={res.room} text={res.content} sender={res.sender}
                                           clicked={() => this.fetchData(res) } />
                             )
                         })}

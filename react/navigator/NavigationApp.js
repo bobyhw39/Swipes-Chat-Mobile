@@ -18,6 +18,8 @@ import ChatGroupNew from "../screens/NewChat/ChatGroupNew";
 import ListEvent from "../screens/Events/ListEvent";
 import EventScreen from "../screens/Events/EventScreen";
 import EventView from "../screens/Events/EventView";
+import FriendsScreen from "../screens/Friends/FriendsScreen";
+import NewGroupScreen from "../screens/NewGroup/NewGroupScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -27,7 +29,7 @@ class NavigationApp extends React.Component{
                 <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props}/> }>
                         <Drawer.Screen name="StackNavigator" component={StackNavigator} />
                         <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-                        <Drawer.Screen name="HomeScreen" component={HomeScreen} />
+                        {/*<Drawer.Screen name="HomeScreen" component={HomeScreen} />*/}
                         <Drawer.Screen name="ChatScreen" component={ChatScreen} />
                         <Drawer.Screen name="NewChatScreen" component={NewChat} />
                         <Drawer.Screen name="ChatScreenNew" component={ChatScreenNew} />
@@ -39,6 +41,8 @@ class NavigationApp extends React.Component{
                         <Drawer.Screen name="Events" component={ListEvent} />
                         <Drawer.Screen name="New Event" component={EventScreen} />
                         <Drawer.Screen name="Event View" component={EventView} />
+                        {/*<Drawer.Screen name="FriendsScreen" component={FriendsScreen} />*/}
+                        <Drawer.Screen name="NewGroupScreen" component={NewGroupScreen} />
                 </Drawer.Navigator>
         );
     }

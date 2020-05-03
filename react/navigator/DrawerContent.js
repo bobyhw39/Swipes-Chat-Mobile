@@ -57,8 +57,8 @@ class DrawerContent extends React.Component{
                         <DrawerItem label="Profile" icon={() => (<Icon name="person" />)}
                                     onPress={() =>  this.props.navigation.dispatch(DrawerActions.jumpTo('ProfileScreen', )) }/>
 
-                        <DrawerItem label="New Group" icon={() => (<Icon name="group" />)}
-                                    onPress={() => this.props.navigation.dispatch(DrawerActions.jumpTo('NewChatScreen', ))} />
+                        <DrawerItem label="Friends" icon={() => (<Icon name="group" />)}
+                                    onPress={() => this.props.navigation.navigate('FriendsScreen', )} />
 
                         <DrawerItem label="New Chat" icon={() => (<Icon name="chat-bubble-outline" />)}
                                     onPress={() => this.props.navigation.dispatch(DrawerActions.jumpTo('NewChatScreen',{result:this.props.username} ))} />

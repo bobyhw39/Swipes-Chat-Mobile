@@ -20,6 +20,8 @@ const css = Native.StyleSheet.create({
 import {CommonActions, StackActions} from '@react-navigation/native';
 import CardMessage from "../../components/CardMessage/CardMessage";
 import {log} from "react-native-reanimated";
+import moment from "moment";
+import CardMessageSender from "../../components/CardMessage/CardMessageSender";
 
 
 let stompClient=null;
@@ -136,13 +138,24 @@ class ChatScreenNew extends React.Component{
                 <NavBar
                     name={res.userTwo.username}
                     icon="arrow-back"
-                    right="search"
+                    right={{
+                        menu: {
+                            icon: "more-vert",
+                            labels: this.state.labels,
+                        },
+                    }}
                     onLeftElementPress={() => this.props.navigation.dispatch(
                         StackActions.replace('HomeScreen',)
                     ) }
-                    onRightElementPress={this.state.search}
+                    onRightElementPress={(label) => {
+                        this.props.navigation.navigate(this.state.labels[label.index],{res:res,res2:res});
+                    }}
                 />
-                <Native.ScrollView style={{height:'80%'}}>
+                <Native.ScrollView style={{height:'80%'}}
+                                   ref={(ref) => (this.scrollView = ref)}
+                                   onContentSizeChange={(contentWidth, contentHeight) => {
+                                       this.scrollView.scrollResponderScrollToEnd({animated: true});
+                                   }}>
                     {this.state.broadcastMessage.map(result=>(
                         // const date = new Date(res)
 
@@ -157,16 +170,44 @@ class ChatScreenNew extends React.Component{
 
                             {/*<Native.Text style={{fontWeight:"bold",textAlign:"right"}}>{result.sender}</Native.Text>*/}
                             {/*<Native.Text style={{textAlign:"right", fontWeight: 'bold', backgroundColor: 'grey'}}>date: {new Date(result.dateTime)}</Native.Text>*/}
-                            <CardMessage key={result.id} sender={result.sender} message={result.content} styles={{margin: 20}}/>
+                            {/*<CardMessage key={result.id} sender={result.sender} message={result.content} styles={{margin: 20}}/>*/}
+                                <Native.View
+                                    key={result.id}
+                                    style={{alignSelf: 'flex-start', marginVertical: '3%'}}>
+                                    <CardMessage
+                                        key={result.id}
+                                        sender={result.sender}
+                                        hour={
+                                            new Date(moment(result.dateTime)).getHours() +
+                                            ':' +
+                                            new Date(moment(result.dateTime)).getMinutes()
+                                        }
+                                        message={result.content}
+                                    />
+                                </Native.View>
                                 </>
                         ):(
                             <>
-                                <CardMessage sender={result.sender}
-                                             message={result.content}
-                                             styles={{margin: 20}}/>
+                                {/*<CardMessage sender={result.sender}*/}
+                                {/*             message={result.content}*/}
+                                {/*             styles={{margin: 20}}/>*/}
 
                                 {/*<Native.Text style={{fontWeight:"bold"}}>{result.sender}</Native.Text>*/}
                                 {/*<Native.Text>{result.content}</Native.Text>*/}
+                                <Native.View
+                                    key={result.id}
+                                    style={{alignSelf: 'flex-end', marginVertical: '3%'}}>
+                                    <CardMessageSender
+                                        key={result.id}
+                                        sender={result.sender}
+                                        hour={
+                                            new Date(moment(result.dateTime)).getHours() +
+                                            ':' +
+                                            new Date(moment(result.dateTime)).getMinutes()
+                                        }
+                                        message={result.content}
+                                    />
+                                </Native.View>
                             </>
                         )}
 

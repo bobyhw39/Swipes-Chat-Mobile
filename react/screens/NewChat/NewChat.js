@@ -35,7 +35,7 @@ class NewChat extends React.Component{
         return (
             <Native.View>
                 <NavBar
-                    name="List Friends"
+                    name="New Chat"
                     icon="arrow-back"
                     right="search"
 
@@ -52,7 +52,7 @@ class NewChat extends React.Component{
 
                 <Native.View>
                     <Native.TouchableOpacity style={{ flexDirection: "row", margin: 20 }}
-                                      onPress={() => this.props.navigation.navigate('NewGroup')}>
+                                      onPress={() => this.props.navigation.navigate('NewGroupScreen')}>
                         <Icon name="people" color='green' />
                         <Native.Text style={{ fontSize: 20, marginLeft: 20 }}>New Group</Native.Text>
                     </Native.TouchableOpacity>

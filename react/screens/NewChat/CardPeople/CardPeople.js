@@ -2,6 +2,7 @@ import React from 'react';
 import Native, {StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {Avatar} from "react-native-paper";
+import {Body, Left, ListItem, Right, Thumbnail} from "native-base";
 
 const styles = StyleSheet.create({
     container: {
@@ -25,15 +26,27 @@ const styles = StyleSheet.create({
 class CardPeople extends React.Component{
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return (
-            <TouchableOpacity style={styles.container} onPress={this.props.clicked}>
-                <View style={{ marginLeft: 20 }}>
-                    <Avatar.Image source={{ uri: "https://i.pravatar.cc/100?img=4" }} size={65}
-                    />
-                </View>
-                <View style={{ marginLeft: 25, textAlign:"center" }}>
-                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>{this.props.fullName}</Text>
-                </View>
+            // <TouchableOpacity style={styles.container} onPress={this.props.clicked}>
+            //     <View style={{ marginLeft: 20 }}>
+            //         <Avatar.Image source={{ uri: "https://i.pravatar.cc/100?img=4" }} size={65}
+            //         />
+            //     </View>
+            //     <View style={{ marginLeft: 25, textAlign:"center" }}>
+            //                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>{this.props.fullName}</Text>
+            //     </View>
+            // </TouchableOpacity>
+            <TouchableOpacity onPress={this.props.clicked}>
+                <ListItem avatar>
+                    <Left>
+                        <Thumbnail source={{ uri: 'https://i.pravatar.cc/100?img='+ Math.random() }} />
+                    </Left>
+                    <Body>
+                        <Text>{this.props.fullName}</Text>
+                        <Text note>Status Here</Text>
+                    </Body>
+                </ListItem>
             </TouchableOpacity>
+
         );
     } b
 }

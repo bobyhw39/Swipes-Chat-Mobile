@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {SearchBar} from "react-native-elements";
 import NavBar from "../../components/NavBar/NavBar";
 import {sendMessage} from "../../redux/actions/connects";
+import moment from 'moment';
 
 const css = Native.StyleSheet.create({
     input : {
@@ -22,6 +23,7 @@ import { CommonActions } from '@react-navigation/native';
 
 import CardMessage from "../../components/CardMessage/CardMessage";
 import {log} from "react-native-reanimated";
+import CardMessageSender from "../../components/CardMessage/CardMessageSender";
 
 let stompClient=null;
 class ChatScreen extends React.Component{
@@ -143,7 +145,7 @@ class ChatScreen extends React.Component{
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-        let {res} = this.props.route.params;
+        let {res,res2} = this.props.route.params;
         return (
             <React.Fragment>
                 <NavBar
@@ -155,18 +157,21 @@ class ChatScreen extends React.Component{
                             labels: this.state.labels,
                         },
                     }}
-
-                    // onLeftElementPress={() => this.props.navigation.replace('HomeScreen') }
                     onLeftElementPress={() => this.props.navigation.dispatch(
                         StackActions.replace('HomeScreen',)
                     ) }
                     onRightElementPress={(label) => {
-                        this.props.navigation.navigate(this.state.labels[label.index]);
+                        this.props.navigation.navigate(this.state.labels[label.index],{res:res,res2:res2});
                     }}
 
                 />
 
-                <Native.ScrollView contentContainerStyle={{ flexDirection: 'column', justifyContent: 'flex-start'}}>
+                <Native.ScrollView contentContainerStyle={{ flexDirection: 'column', justifyContent: 'flex-start'}}
+                                   ref={(ref) => (this.scrollView = ref)}
+                                   onContentSizeChange={(contentWidth, contentHeight) => {
+                                       this.scrollView.scrollResponderScrollToEnd({animated: true});
+                                   }}
+                >
                     {/*{console.log(this.state.broadcastMessage,"check udah masuk state apa nggga")}*/}
                     {this.state.broadcastMessage.map(result=>(
                         // const date = new Date(res)
@@ -174,15 +179,36 @@ class ChatScreen extends React.Component{
                         <>
                         {result.sender!==this.props.username?(
                             <>
-                            <Native.View style={{marginRight: 16, alignSelf: 'flex-start', marginVertical: 16}}>
-                                <CardMessage key={result.id} sender={result.sender} message={result.content}/>
-                            </Native.View>
-                                </>
-                        ):(
+                                <Native.View
+                                    key={result.id}
+                                    style={{alignSelf: 'flex-start', marginVertical: '3%'}}>
+                                    <CardMessage
+                                        key={result.id}
+                                        sender={result.sender}
+                                        hour={
+                                            new Date(moment(result.dateTime)).getHours() +
+                                            ':' +
+                                            new Date(moment(result.dateTime)).getMinutes()
+                                        }
+                                        message={result.content}
+                                    />
+                                </Native.View>
+                            </>
+                        ) : (
                             <>
-                                <Native.View style={{marginLeft: 16, alignSelf: 'flex-end', marginVertical: 16}}>
-                                    <CardMessage key={result.id} sender={result.sender}
-                                                 message={result.content}/>
+                                <Native.View
+                                    key={result.id}
+                                    style={{alignSelf: 'flex-end', marginVertical: '3%'}}>
+                                    <CardMessageSender
+                                        key={result.id}
+                                          sender={result.sender}
+                                        hour={
+                                            new Date(moment(result.dateTime)).getHours() +
+                                            ':' +
+                                            new Date(moment(result.dateTime)).getMinutes()
+                                        }
+                                        message={result.content}
+                                    />
                                 </Native.View>
                             </>
                         )}

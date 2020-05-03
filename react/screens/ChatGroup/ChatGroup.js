@@ -25,6 +25,8 @@ import { CommonActions } from '@react-navigation/native';
 
 import CardMessage from "../../components/CardMessage/CardMessage";
 import {log} from "react-native-reanimated";
+import moment from "moment";
+import CardMessageSender from "../../components/CardMessage/CardMessageSender";
 
 let currentSubscription;
 let stompClient=null;
@@ -33,6 +35,7 @@ class ChatGroup extends React.Component{
     state={
         broadcastMessage:[],
         messageInput:[],
+        labels: ["Group Info", "Events", "Clear history", "Todos"],
     }
 
     sender(){
@@ -149,26 +152,39 @@ class ChatGroup extends React.Component{
 
             // await stompClient.send('/app/sendPrivateMessage', {}, JSON.stringify(chatMessage));
             await stompClient.send('/app/ws/group/' + res2.room.id+"/sendMessageGroup", {}, JSON.stringify(chatMessage));
-            
+
         }
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-        let {res} = this.props.route.params;
+        let {res,res2} = this.props.route.params;
         return (
             <React.Fragment>
                 <NavBar
-                    name={this.receiver()}
+                    name={res2.room.name}
                     icon="arrow-back"
-                    right="search"
+                    right={{
+                        menu: {
+                            icon: "more-vert",
+                            labels: this.state.labels,
+                        },
+                    }}
+
                     // onLeftElementPress={() => this.props.navigation.replace('HomeScreen') }
                     onLeftElementPress={() => this.props.navigation.dispatch(
                         StackActions.replace('HomeScreen',)
                     ) }
-                    onRightElementPress={this.state.search}
+                    onRightElementPress={(label) => {
+                        this.props.navigation.navigate(this.state.labels[label.index],{res:res2.room});
+                    }}
+
                 />
 
-                <Native.ScrollView contentContainerStyle={{ flexDirection: 'column', justifyContent: 'flex-start'}}>
+                <Native.ScrollView contentContainerStyle={{ flexDirection: 'column', justifyContent: 'flex-start'}}
+                                   ref={(ref) => (this.scrollView = ref)}
+                                   onContentSizeChange={(contentWidth, contentHeight) => {
+                                       this.scrollView.scrollResponderScrollToEnd({animated: true});
+                                   }}>
                     {/*{console.log(this.state.broadcastMessage,"check udah masuk state apa nggga")}*/}
                     {this.state.broadcastMessage.map(result=>(
                         // const date = new Date(res)
@@ -176,15 +192,36 @@ class ChatGroup extends React.Component{
                         <>
                             {result.sender!==this.props.username?(
                                 <>
-                                    <Native.View style={{marginRight: 16, alignSelf: 'flex-start', marginVertical: 16}}>
-                                        <CardMessage key={result.id} sender={result.sender} message={result.content}/>
+                                    <Native.View
+                                        key={result.id}
+                                        style={{alignSelf: 'flex-start', marginVertical: '3%'}}>
+                                        <CardMessage
+                                            key={result.id}
+                                            sender={result.sender}
+                                            hour={
+                                                new Date(moment(result.dateTime)).getHours() +
+                                                ':' +
+                                                new Date(moment(result.dateTime)).getMinutes()
+                                            }
+                                            message={result.content}
+                                        />
                                     </Native.View>
                                 </>
                             ):(
                                 <>
-                                    <Native.View style={{marginLeft: 16, alignSelf: 'flex-end', marginVertical: 16}}>
-                                        <CardMessage sender={result.sender}
-                                                     message={result.content}/>
+                                    <Native.View
+                                        key={result.id}
+                                        style={{alignSelf: 'flex-end', marginVertical: '3%'}}>
+                                        <CardMessageSender
+                                            key={result.id}
+                                            sender={result.sender}
+                                            hour={
+                                                new Date(moment(result.dateTime)).getHours() +
+                                                ':' +
+                                                new Date(moment(result.dateTime)).getMinutes()
+                                            }
+                                            message={result.content}
+                                        />
                                     </Native.View>
                                 </>
                             )}

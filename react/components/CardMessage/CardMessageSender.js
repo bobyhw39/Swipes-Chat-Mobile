@@ -2,21 +2,22 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View} from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-class CardMessage extends Component {
+class CardMessageSender extends Component {
     render() {
         return (
             <View style={styles.all}>
 
                 <View style={styles.container}>
                 </View>
-                <View style={styles.after}>
-                    <View style={{flex: 4}}>
-                        <Text style={{ fontSize: 15, fontWeight: "bold" }}> {this.props.sender} </Text>
-                        <Text style={{ fontSize: 15, marginLeft: '4%'}}>{this.props.message}</Text>
-                    </View>
-
-                    <View style={{ alignSelf: 'flex-end', flex: 1}}>
-                        <Text style={{ fontSize: 10, alignSelf: 'flex-end', marginRight: '10%',}}>{this.props.hour}</Text>
+                <View style={{alignItems: 'flex-end', position: 'absolute'}}>
+                    <View style={styles.after}>
+                        <View style={{flex: 4}}>
+                            <Text style={{ fontSize: 15, fontWeight: "bold" }}> {this.props.sender} </Text>
+                            <Text style={{ fontSize: 15,marginLeft: '4%' }}>{this.props.message}</Text>
+                        </View>
+                        <View style={{ alignSelf: 'flex-end', flex: 1}}>
+                            <Text style={{ fontSize: 10, alignSelf: 'flex-end', marginRight: '4%'}}>{this.props.hour}</Text>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -28,11 +29,12 @@ const  styles = StyleSheet.create({
     all:{
         marginVertical: 5,
         marginHorizontal: 5,
+        alignItems: 'flex-end',
         // backgroundColor: 'blue'
     },
     container:{
-        borderBottomEndRadius: 10,
-        borderBottomLeftRadius: 90,
+        borderBottomEndRadius: 90,
+        borderBottomLeftRadius: 10,
         borderTopEndRadius: 10,
         width: wp('30%'),
         height: 30,
@@ -51,13 +53,11 @@ const  styles = StyleSheet.create({
     },
     after: {
         flexDirection: 'row',
-        marginLeft: 10,
+        marginRight: 10,
+        // marginBottom: 10,
         padding: 5,
-        position: 'absolute',
-        borderBottomEndRadius: 10,
-        borderBottomLeftRadius: 10,
-        borderTopEndRadius: 10,
-        width: wp('50%'),
+        borderRadius: 10,
+        width: wp('60%'),
         backgroundColor: 'white',
         shadowColor: "#000",
         shadowOffset: {
@@ -72,4 +72,4 @@ const  styles = StyleSheet.create({
 
 })
 
-export default CardMessage;
+export default CardMessageSender;

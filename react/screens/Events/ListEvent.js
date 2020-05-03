@@ -28,6 +28,7 @@ class ListEvent extends Component {
     };
 
     render() {
+        let {res,res2} = this.props.route.params;
         const { event } = this.props;
         // console.log(event);
 
@@ -65,19 +66,19 @@ class ListEvent extends Component {
                     }}
                     onLeftElementPress={() => {
                         this.props.navigation.dispatch(
-                            StackActions.replace("ChatScreen",)
+                            StackActions.replace("ChatScreen",{res:res,res2:res2})
                         )
                     }}
-                    // onRightElementPress={() => {
-                    //   this.props.navigation.navigate("New Event");
-                    // }}
-                />
-                <Button
-                    title="New"
-                    onPress={() => {
-                        this.props.navigation.navigate("New Event");
+                    onRightElementPress={() => {
+                      this.props.navigation.navigate("New Event");
                     }}
                 />
+                {/*<Button*/}
+                {/*    title="New"*/}
+                {/*    onPress={() => {*/}
+                {/*        this.props.navigation.navigate("New Event");*/}
+                {/*    }}*/}
+                {/*/>*/}
                 <ScrollView >
                     {listEvent}
                 </ScrollView>
