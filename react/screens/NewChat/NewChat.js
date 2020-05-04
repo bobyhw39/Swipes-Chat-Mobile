@@ -42,13 +42,13 @@ class NewChat extends React.Component{
                     onLeftElementPress={() => { this.props.navigation.goBack() }}
                     onRightElementPress={this.state.search}
                 />
-                <SearchBar style={{ backgroundColor: 'white' }} containerStyle={{ backgroundColor: 'tasparent' }} inputContainerStyle={{ backgroundColor: 'tasparent' }}
-                           round
-                           searchIcon={{ size: 24 }}
-                           onChangeText={text => this.searchFilterFunction(text)}
-                           onClear={text => this.searchFilterFunction('')}
-                           placeholder="Type Here..."
-                           value={this.state.search} />
+                {/*<SearchBar style={{ backgroundColor: 'white' }} containerStyle={{ backgroundColor: 'tasparent' }} inputContainerStyle={{ backgroundColor: 'tasparent' }}*/}
+                {/*           round*/}
+                {/*           searchIcon={{ size: 24 }}*/}
+                {/*           onChangeText={text => this.searchFilterFunction(text)}*/}
+                {/*           onClear={text => this.searchFilterFunction('')}*/}
+                {/*           placeholder="Type Here..."*/}
+                {/*           value={this.state.search} />*/}
 
                 <Native.View>
                     <Native.TouchableOpacity style={{ flexDirection: "row", margin: 20 }}
@@ -71,7 +71,7 @@ class NewChat extends React.Component{
                         Your Group
                     </Native.Text>
                     {this.state.groupList.map(result=>(
-                        <CardPeople clicked={() => { this.props.navigation.navigate('ChatGroupNew',{res:result})}} fullName={result.name}/>
+                        <CardPeople key={new Date()} clicked={() => { this.props.navigation.navigate('ChatGroupNew',{res:result})}} fullName={result.name}/>
                     ))}
                 </Native.View>
 
@@ -80,7 +80,7 @@ class NewChat extends React.Component{
                         Your Friends
                     </Native.Text>
                     {this.state.contactList.map(result=>(
-                        <CardPeople clicked={() => { this.props.navigation.navigate('ChatScreenNew',{res:result})}} fullName={result.userTwo.fullName}/>
+                        <CardPeople key={Math.random()} clicked={() => { this.props.navigation.navigate('ChatScreenNew',{res:result})}} fullName={result.userTwo.fullName}/>
                     ))}
                 </Native.View>
             </Native.View>

@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 import {connect} from 'react-redux'
 import fetchAccount from "../redux/actions/fetchAccount";
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions,StackActions } from '@react-navigation/native';
 
 const styles = Native.StyleSheet.create({
     drawerContent: {
@@ -61,10 +61,10 @@ class DrawerContent extends React.Component{
                                     onPress={() => this.props.navigation.navigate('FriendsScreen', )} />
 
                         <DrawerItem label="New Chat" icon={() => (<Icon name="chat-bubble-outline" />)}
-                                    onPress={() => this.props.navigation.dispatch(DrawerActions.jumpTo('NewChatScreen',{result:this.props.username} ))} />
+                                    onPress={() => this.props.navigation.navigate('NewChatScreen',{result:this.props.username})} />
 
                         <DrawerItem label="Add Friends" icon={() => (<Icon name="person-add" />)}
-                                    onPress={() => this.props.navigation.dispatch(DrawerActions.jumpTo('AddFriendsScreen', ))} />
+                                    onPress={() => this.props.navigation.navigate('AddFriendsScreen', )} />
 
                         <DrawerItem label="Settings" icon={() => (<Icon name="settings" />)}
                                     onPress={() => { this.props.navigation.navigate('SettingsScreen') }} />

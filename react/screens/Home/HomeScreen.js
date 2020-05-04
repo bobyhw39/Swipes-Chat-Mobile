@@ -70,7 +70,7 @@ class HomeScreen extends React.Component{
     async logout(){
         await this.props.dispatch(logout());
         alert("Anda keluar dari Swipes chat!");
-        this.props.navigation.dispatch(DrawerActions.jumpTo('LoginScreen',))
+        this.props.navigation.navigate('LoginScreen',)
     }
 
     render() {
@@ -92,7 +92,7 @@ class HomeScreen extends React.Component{
                         {        this.state.lastChat.map(res => {
                             console.log(res.receiver,"check if user available")
                             return (
-                                <CardChat receiver={this.props.username!=res.receiver ? res.receiver : res.sender} id= {res.id} group={res.room} text={res.content} sender={res.sender}
+                                <CardChat key={new Date()} receiver={this.props.username!=res.receiver ? res.receiver : res.sender} id= {res.id} group={res.room} text={res.content} sender={res.sender}
                                           clicked={() => this.fetchData(res) } />
                             )
                         })}
@@ -102,7 +102,6 @@ class HomeScreen extends React.Component{
                                       onPress={() => { this.props.navigation.navigate('NewChatScreen',{result:this.props.username}) }}>
                         <Icon raised name='colorize' color='green' />
                     </Native.TouchableOpacity>
-
                 </Native.View>
             </React.Fragment>
         );

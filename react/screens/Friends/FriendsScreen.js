@@ -33,7 +33,7 @@ class FriendsScreen extends React.Component {
                 <Content>
                     <List>
                         {this.state.contactList.map(result=>(
-                            <Native.TouchableOpacity>
+                            <Native.TouchableOpacity key={Math.random()}>
                                 <ListItem avatar onPress={() => { this.props.navigation.navigate('ChatScreenNew',{res:result})}}>
                                     <Left>
                                         <Thumbnail source={{ uri: 'https://i.pravatar.cc/100?img='+result.id }} />

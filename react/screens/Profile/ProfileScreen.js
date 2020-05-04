@@ -2,9 +2,23 @@ import React from 'react'
 import { View, StyleSheet, ScrollView, } from 'react-native'
 import NavBar from '../../components/NavBar/NavBar';
 import { Avatar, } from 'react-native-paper';
-import { Icon, Text } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import Axios from 'axios';
 import {connect} from 'react-redux';
+import {
+    Input,
+    Container,
+    Content,
+    Item,
+    Text,
+    Title,
+    Thumbnail,
+    Button,
+    CardItem,
+    Card,
+    Body,
+    ListItem, Left, Right,Col
+} from 'native-base'
 
 class ProfileScreen extends React.Component {
     state = {
@@ -13,26 +27,35 @@ class ProfileScreen extends React.Component {
     render() {
         const { persons, value } = this.state;
         return (
-            <View style={styles.container}>
+            <Container>
                 <NavBar
                     name="Profil"
                     icon="arrow-back"
                     onLeftElementPress={() => { this.props.navigation.goBack() }} />
-                <View style={styles.user}>
+                <Content>
+                    <Avatar.Image style={{alignSelf:'center',margin:'3%'}} source={{ uri: "https://i.pravatar.cc/100?img=4" }} size={180} />
+                    <Card style={{marginLeft:'3%',marginRight:'3%',marginTop:'3%',marginBottom:'3%',padding:"1%"}}>
+                        <CardItem>
+                            <Text style={{fontWeight:'bold'}}>Name : </Text>
+                            <Text icon={() => (<Icon name="persons" />)}>{this.props.fullName}</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Text style={{fontWeight:'bold'}}>Email : </Text>
+                            <Text icon={() => (<Icon name="error-outline" />)}>{this.props.email}</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Text style={{fontWeight:'bold'}}>Username : </Text>
+                            <Text icon={() => (<Icon name="phone" />)}>{this.props.username}</Text>
+                        </CardItem>
+                    </Card>
 
-                    <Avatar.Image source={{ uri: "https://i.pravatar.cc/100?img=4" }} size={180} />
 
-                    <View style={styles.drawerSection}>
-                        <Text style={{fontWeight:'bold'}}>Name</Text>
-                        <Text icon={() => (<Icon name="persons" />)}>{this.props.fullName}</Text>
-                        <Text style={{fontWeight:'bold'}}>Email</Text>
-                        <Text icon={() => (<Icon name="error-outline" />)}>{this.props.email}</Text>
-                        <Text style={{fontWeight:'bold'}}>Username</Text>
-                        <Text icon={() => (<Icon name="phone" />)}>{this.props.username}</Text>
-                    </View>
-                </View>
 
-            </View>
+
+
+
+                </Content>
+            </Container>
         )
     }
 }

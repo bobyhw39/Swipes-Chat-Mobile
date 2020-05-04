@@ -28,21 +28,21 @@ class NavigationApp extends React.Component{
         return (
                 <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props}/> }>
                         <Drawer.Screen name="StackNavigator" component={StackNavigator} />
-                        <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-                        {/*<Drawer.Screen name="HomeScreen" component={HomeScreen} />*/}
-                        <Drawer.Screen name="ChatScreen" component={ChatScreen} />
-                        <Drawer.Screen name="NewChatScreen" component={NewChat} />
-                        <Drawer.Screen name="ChatScreenNew" component={ChatScreenNew} />
-                        <Drawer.Screen name="RegistrationScreen" component={RegistrationScreen} />
+                        {/*<Drawer.Screen name="LoginScreen" component={LoginScreen} />*/}
+                        {/*/!*<Drawer.Screen name="HomeScreen" component={HomeScreen} />*!/*/}
+                        {/*<Drawer.Screen name="ChatScreen" component={ChatScreen} />*/}
+                        {/*<Drawer.Screen name="NewChatScreen" component={NewChat} />*/}
+                        {/*<Drawer.Screen name="ChatScreenNew" component={ChatScreenNew} />*/}
+                        {/*<Drawer.Screen name="RegistrationScreen" component={RegistrationScreen} />*/}
                         <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
-                        <Drawer.Screen name="AddFriendsScreen" component={AddFriends} />
-                        <Drawer.Screen name="ChatGroupScreen" component={ChatGroup} />
-                        <Drawer.Screen name="ChatGroupNew" component={ChatGroupNew} />
-                        <Drawer.Screen name="Events" component={ListEvent} />
-                        <Drawer.Screen name="New Event" component={EventScreen} />
-                        <Drawer.Screen name="Event View" component={EventView} />
-                        {/*<Drawer.Screen name="FriendsScreen" component={FriendsScreen} />*/}
-                        <Drawer.Screen name="NewGroupScreen" component={NewGroupScreen} />
+                        {/*<Drawer.Screen name="AddFriendsScreen" component={AddFriends} />*/}
+                        {/*<Drawer.Screen name="ChatGroupScreen" component={ChatGroup} />*/}
+                        {/*<Drawer.Screen name="ChatGroupNew" component={ChatGroupNew} />*/}
+                        {/*<Drawer.Screen name="Events" component={ListEvent} />*/}
+                        {/*<Drawer.Screen name="New Event" component={EventScreen} />*/}
+                        {/*<Drawer.Screen name="Event View" component={EventView} />*/}
+                        {/*/!*<Drawer.Screen name="FriendsScreen" component={FriendsScreen} />*!/*/}
+                        {/*<Drawer.Screen name="NewGroupScreen" component={NewGroupScreen} />*/}
                 </Drawer.Navigator>
         );
     }

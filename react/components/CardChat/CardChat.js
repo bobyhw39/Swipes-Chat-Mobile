@@ -23,9 +23,6 @@ export default class CardChat extends React.Component  {
                         }
                         <Text note>{this.props.text}</Text>
                     </Body>
-                    <Right>
-                        <Text note>3:43 pm</Text>
-                    </Right>
                 </ListItem>
             </TouchableOpacity>
         );
